@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "345637445228",
+    "firebase_url": "https://unionlinedb-660b4.firebaseio.com",
+    "project_id": "unionlinedb-660b4",
+    "storage_bucket": "unionlinedb-660b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345637445228:android:6ffd55503f643d7f",
+        "android_client_info": {
+          "package_name": "ni.edu.uni.www.unionline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345637445228-od2q6vbdk3g88b3ieg6vp9mh471p16qn.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "345637445228-od2q6vbdk3g88b3ieg6vp9mh471p16qn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvnsjNI6IBsWej4_Jvr8cEakPJOvwZbkw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
