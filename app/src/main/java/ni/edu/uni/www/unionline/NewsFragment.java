@@ -6,11 +6,20 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NewsFragment extends Fragment {
 
@@ -19,30 +28,55 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
 // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        RecyclerView rvNews;
+        final RecyclerView rvNews;
         //Inicializar RecilcerView
         rvNews = (RecyclerView) view.findViewById(R.id.rvNews);
+        final ArrayList<ModelNews> listNews = new ArrayList<>();
 
-        ArrayList<ModelNews> listNews=new ArrayList<>();
 
-        listNews.add(new ModelNews(R.mipmap.news1, "Muere la mancucha", "Muere a causa de un apreton de piernas de la caballeta Muere a causa de un apreton de piernas de la caballeta","17/05/2018"));
-        listNews.add(new ModelNews(R.mipmap.news2, "La mancucha se encuentra con vida", "Muere a causa de un apreton de piernas de la caballetaMuere a causa de un apreton de piernas de la caballeta","17/05/2018"));
-        listNews.add(new ModelNews(R.mipmap.headerimage, "Muere la mancucha", "Muere a causa de un apreton de piernas de la caballetaMuere a causa de un apreton de piernas de la caballeta","17/05/2018"));
-        listNews.add(new ModelNews(R.mipmap.news1, "Muere la mancucha", "Muere a causa de un apreton de piernas de la caballetaMuere a causa de un apreton de piernas de la caballeta","17/05/2018"));
-        listNews.add(new ModelNews(R.mipmap.news1, "Muere la mancucha", "Muere a causa de un apreton de piernas de la caballeta","17/05/2018"));
-        listNews.add(new ModelNews(R.mipmap.news1, "Muere la mancucha", "Muere a causa de un apreton de piernas de la caballeta","17/05/2018"));
-        listNews.add(new ModelNews(R.mipmap.news2, "Muere la mancucha", "Muere a causa de un apreton de piernas de la caballeta","17/05/2018"));
-        listNews.add(new ModelNews(R.mipmap.news1, "Muere la mancucha", "Muere a causa de un apreton de piernas de la caballeta","17/05/2018"));
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        RecyclerView.LayoutManager rvLayoutManager = linearLayoutManager;
-        rvNews.setLayoutManager(rvLayoutManager);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        DatabaseReference myRef = database.getReference().child("news");
 
-        NewsAdapter  newsAdapter = new NewsAdapter(getContext(), listNews);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ModelNews news = snapshot.getValue(ModelNews.class);
+                    //writeNews(news.getImage(),news.getNewsTitle(), news.getNewsDetails(), news.getNewsCreateDate());
+                    listNews.add(new ModelNews(news.getImage(), news.getNewsTitle(), news.getNewsDetails(), news.getNewsCreateDate()));
+                }
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                RecyclerView.LayoutManager rvLayoutManager = linearLayoutManager;
+                rvNews.setLayoutManager(rvLayoutManager);
 
-        rvNews.setAdapter(newsAdapter);
+                NewsAdapter newsAdapter = new NewsAdapter(getContext(), listNews);
+
+                rvNews.setAdapter(newsAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Ha ocurrido un error (" + databaseError.getMessage() + ")", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
 
         return view;
     }
 
+    private void writeNews(int image, String newsTitle, String newsDetails, String newsCreateDate) {
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        try {
+            ModelNews news = new ModelNews(image, newsTitle, newsDetails, newsCreateDate);
+
+            myRef.child("news").child(newsTitle).setValue(news);
+        } catch (Exception e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT);
+        }
+    }
 }

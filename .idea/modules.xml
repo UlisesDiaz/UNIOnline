@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/UNIOnline.iml" filepath="$PROJECT_DIR$/UNIOnline.iml" />
-      <module fileurl="file://C:\Users\ulises diaz\UNIOnline\UNIOnline.iml" filepath="C:\Users\ulises diaz\UNIOnline\UNIOnline.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\ulises diaz\UNIOnline\app\app.iml" filepath="C:\Users\ulises diaz\UNIOnline\app\app.iml" />
     </modules>
   </component>
 </project>

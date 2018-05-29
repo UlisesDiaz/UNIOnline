@@ -8,7 +8,8 @@ public class ModelNews {
 
     private int image;
     private String newsTitle, newsDetails, newsCreateDate;
-
+    public ModelNews()
+    {}
     public ModelNews(int image, String newsTitle, String newsDetails, String newsCreateDate) {
         this.image = image;
         this.newsTitle = newsTitle;
