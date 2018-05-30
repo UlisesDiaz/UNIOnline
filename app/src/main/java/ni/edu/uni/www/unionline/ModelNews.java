@@ -6,22 +6,22 @@ package ni.edu.uni.www.unionline;
 
 public class ModelNews {
 
-    private int image;
+    private String image;
     private String newsTitle, newsDetails, newsCreateDate;
     public ModelNews()
     {}
-    public ModelNews(int image, String newsTitle, String newsDetails, String newsCreateDate) {
+    public ModelNews(String image, String newsTitle, String newsDetails, String newsCreateDate) {
         this.image = image;
         this.newsTitle = newsTitle;
         this.newsDetails = newsDetails;
         this.newsCreateDate = newsCreateDate;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

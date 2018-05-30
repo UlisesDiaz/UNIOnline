@@ -22,38 +22,49 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NewsFragment extends Fragment {
+    static boolean calledAlready = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
-        final RecyclerView rvNews;
-        //Inicializar RecilcerView
-        rvNews = (RecyclerView) view.findViewById(R.id.rvNews);
-        final ArrayList<ModelNews> listNews = new ArrayList<>();
+        final View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-
-
+        if (!calledAlready) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            calledAlready = true;
+        } else {
+        }
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         DatabaseReference myRef = database.getReference().child("news");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    ModelNews news = snapshot.getValue(ModelNews.class);
-                    //writeNews(news.getImage(),news.getNewsTitle(), news.getNewsDetails(), news.getNewsCreateDate());
-                    listNews.add(new ModelNews(news.getImage(), news.getNewsTitle(), news.getNewsDetails(), news.getNewsCreateDate()));
-                }
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                RecyclerView.LayoutManager rvLayoutManager = linearLayoutManager;
-                rvNews.setLayoutManager(rvLayoutManager);
 
-                NewsAdapter newsAdapter = new NewsAdapter(getContext(), listNews);
+              try {
+                  final RecyclerView rvNews;
+                  //Inicializar RecilcerView
+                  rvNews = (RecyclerView) view.findViewById(R.id.rvNews);
+                  final ArrayList<ModelNews> listNews = new ArrayList<>();
 
-                rvNews.setAdapter(newsAdapter);
+                  for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                      ModelNews news = snapshot.getValue(ModelNews.class);
+                      //writeNews(news.getImage(),news.getNewsTitle(), news.getNewsDetails(), news.getNewsCreateDate());
+                      listNews.add(new ModelNews(news.getImage(), news.getNewsTitle(), news.getNewsDetails(), news.getNewsCreateDate()));
+                  }
+                  LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                  RecyclerView.LayoutManager rvLayoutManager = linearLayoutManager;
+                  rvNews.setLayoutManager(rvLayoutManager);
+
+                  NewsAdapter newsAdapter = new NewsAdapter(getContext(), listNews);
+
+                  rvNews.setAdapter(newsAdapter);
+              }catch (Exception e)
+              {
+                  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+              }
             }
 
             @Override
@@ -63,11 +74,10 @@ public class NewsFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
-    private void writeNews(int image, String newsTitle, String newsDetails, String newsCreateDate) {
+    private void writeNews(String image, String newsTitle, String newsDetails, String newsCreateDate) {
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:elevation="20dp"
+
+    >
 
 
     <LinearLayout
@@ -9,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_margin="10dp"
 android:padding="10dp"
+
         >
 
         <ImageView
@@ -23,7 +27,7 @@ android:padding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="30dp"
             >
 
             <TextView
@@ -42,17 +46,17 @@ android:padding="10dp"
                 android:text="Detalle"
                 android:id="@+id/tv_NewsDetails"
                 />
-
+            <TextView
+                android:background="@drawable/capsula"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="Fecha Noticia"
+                android:id="@+id/tv_NewsCreateDate"
+                />
         </LinearLayout>
-        <TextView
-            android:background="@drawable/capsula"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            android:gravity="center"
-            android:text="Fecha Noticia"
-            android:id="@+id/tv_NewsCreateDate"
-            />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>
